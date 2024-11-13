@@ -14,4 +14,3 @@ function isPalindrom(rawString) {
 }
 isPalindrom('топот');
 isPalindrom('ДоВод');
-isPalindrom('КеКс');
