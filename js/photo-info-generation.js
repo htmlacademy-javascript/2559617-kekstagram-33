@@ -22,6 +22,19 @@ const COMMENTS = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
 ];
 
+const DESCRIPTIONS = [
+  'Продолжай улыбаться, потому что жизнь — прекрасная вещь и есть еще так много поводов для улыбки.',
+  'Хочу увидеть, что произойдет, если я не сдамся.',
+  'Лучше начать действовать, совершая ошибки, чем медлить, стремясь к безошибочности.',
+  'Не бойся быть не таким, как все, и все захотят быть таким, как ты.',
+  'Одна хорошая мысль утром меняет смысл целого дня.',
+  'Что бы ни случилось завтра, у нас есть еще сегодня.',
+  'Настойчивость окупается сполна.',
+  'Будь голосом, а не эхом.',
+  'Человек на вершине горы не упал туда с неба.',
+  'Отсутствие сна — это не проблема. Проблема, когда ты не знаешь, ради чего просыпаешься по утрам.',
+];
+
 const LIKE_COUNT_RANGE = {
   min: 15,
   max: 200
@@ -44,8 +57,8 @@ function getCreateComment() {
   return {
     id: getNextCommentId(),
     avatar: `img/avatar-${getRandomIntInclusive(IMAGE_ID_RANGE.min, IMAGE_ID_RANGE.max)}.svg`,
-    message: `${getRandomArrayElement(COMMENTATOR_NAMES)}`,
-    name: `${getRandomArrayElement(COMMENTS)}`,
+    message: `${getRandomArrayElement(COMMENTS)}`,
+    name: `${getRandomArrayElement(COMMENTATOR_NAMES)}`,
   };
 }
 
@@ -55,7 +68,7 @@ function getCreatePhotoInfo() {
   return {
     id: getNextPhotoId(),
     url: `photos/${getNextUrlId()}.jpg`,
-    description: 'Это придуманное описание для фотографии',
+    description: `${getRandomArrayElement(DESCRIPTIONS)}`,
     likes: getRandomIntInclusive(LIKE_COUNT_RANGE.min, LIKE_COUNT_RANGE.max),
     comments: comments,
   };

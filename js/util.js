@@ -10,3 +10,5 @@ export const createIdGenerator = () => {
   let currentId = 0;
   return () => ++currentId;
 };
+
+export const isEscapeKey = (evt) => evt.key === 'Escape';
