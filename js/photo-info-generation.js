@@ -62,4 +62,3 @@ function getCreatePhotoInfo() {
 }
 
 export const generatePhotosInfo = () => Array.from({ length: getRandomIntInclusive(1, NUMBERS_OF_ARRAYS) }, () => getCreatePhotoInfo());
-
