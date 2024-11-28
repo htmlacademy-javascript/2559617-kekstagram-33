@@ -1,6 +1,6 @@
 import { generatePhotosInfo } from './photo-info-generation';
 
-const photoTemplateElement = document.querySelector('#picture').content.querySelector('.picture'); 
+const photoTemplateElement = document.querySelector('#picture').content.querySelector('.picture');
 const photosContainer = document.querySelector('.pictures');
 
 const photosData = generatePhotosInfo();
