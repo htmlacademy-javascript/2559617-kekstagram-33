@@ -1,5 +1,7 @@
 import { isEscapeKey } from './util';
 
+const COMMENTS_PER_PAGE = 5;
+
 const bigPictureModal = document.querySelector('.big-picture');
 const commentCounterElement = document.querySelector('.social__comment-count');
 const commentsList = document.querySelector('.social__comments');
@@ -7,7 +9,6 @@ const showMoreCommentsButton = document.querySelector('.comments-loader');
 const bodyElement = document.querySelector('body');
 const closeModalButton = document.querySelector('.big-picture__cancel');
 
-const commentsPerPage = 5;
 let displayedComments = 0;
 let allComments = [];
 
@@ -20,7 +21,7 @@ const createComment = (commentData) => {
 };
 
 const renderComments = () => {
-  displayedComments += commentsPerPage;
+  displayedComments += COMMENTS_PER_PAGE;
 
   if (displayedComments >= allComments.length) {
     showMoreCommentsButton.classList.add('hidden');
