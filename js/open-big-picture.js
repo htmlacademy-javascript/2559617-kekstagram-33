@@ -1,6 +1,7 @@
 import { isEscapeKey } from './util';
 
 const COMMENTS_PER_PAGE = 5;
+
 const bigPictureModal = document.querySelector('.big-picture');
 const commentCounterElement = document.querySelector('.social__comment-count');
 const commentsList = document.querySelector('.social__comments');
