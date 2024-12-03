@@ -79,11 +79,59 @@ export const initValidation = (form, hashtags, comment) => {
 };
 
 export const checkValidateForm = (pristine) => {
+  const errorTemplate = document.querySelector('#error').content;
+  const successTemplate = document.querySelector('#success').content;
+  const messageContainer = document.createElement('div');
+
+  const overlay = document.querySelector('.img-upload__overlay');
+  const bodyElement = document.querySelector('body');
+
   formElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
     if (isValid) {
-      formElement.submit();
+      const formData = new FormData(evt.target);
+      fetch(
+        'https://32.javascript.htmlacademy.pro/kekstagram',
+        {
+          method: 'POST',
+          body: formData,
+        },
+      )
+        .then((response) => {
+          if (!response.ok) {
+            return response.json().then((error) => {
+              throw new Error(error.message || 'Ошибка отправки формы');
+            });
+          }
+          return response.json();
+        })
+        .then((data) => {
+          const successMessage = successTemplate.cloneNode(true);
+          const successButton = successMessage.querySelector('.success__button');
+          overlay.classList.add('hidden');
+          bodyElement.classList.remove('modal-open');
+          successButton.addEventListener('click', () => {
+            messageContainer.remove();
+          });
+          messageContainer.appendChild(successMessage);
+          document.body.appendChild(messageContainer);
+          // eslint-disable-next-line no-console
+          console.log('Успешная отправка:', data);
+        })
+        .catch((error) => {
+          const errorMessage = errorTemplate.cloneNode(true);
+          const errorButton = errorMessage.querySelector('.error__button');
+          errorButton.addEventListener('click', () => {
+            messageContainer.remove();
+          });
+          messageContainer.appendChild(errorMessage);
+          document.body.appendChild(messageContainer);
+          // eslint-disable-next-line no-console
+          console.error('Проищошла ошибка:', error);
+        });
     }
   });
 };
+
+
