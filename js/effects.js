@@ -3,6 +3,7 @@ const imagePreview = document.querySelector('.img-upload__preview img');
 const effectLevelContainer = document.querySelector('.img-upload__effect-level');
 const effectLevelSlider = document.querySelector('.effect-level__slider');
 
+
 const EFFECTS = [
   {
     effectName: 'none',
@@ -65,13 +66,9 @@ let slider;
 const applyEffect = () => {
   const selectedEffect = EFFECTS.find((effect) => effect.querySelector.checked);
   if (selectedEffect) {
-    const value = parseFloat(slider.get());
+    const value = parseFloat(slider?.get() || 0);
     effectValue.value = value;
-    if (selectedEffect.effectName === 'none') {
-      imagePreview.style.filter = '';
-    } else {
-      imagePreview.style.filter = `${selectedEffect.filter}(${value}${selectedEffect.unit})`;
-    }
+    imagePreview.style.filter = selectedEffect.effectName === 'none' ? '' : `${selectedEffect.filter}(${value}${selectedEffect.unit})`;
   } else {
     imagePreview.style.filter = '';
   }
@@ -90,7 +87,7 @@ const createSlider = (effect) => {
     connect: 'lower',
     step: effect.step,
     format: {
-      to: (value) => (Number.isInteger(value) ? value.toFixed(0) : value.toFixed(1)),
+      to: (value) => Number(value),
       from: (value) => parseFloat(value),
     },
   });
@@ -100,18 +97,19 @@ const createSlider = (effect) => {
 export const initEffects = () => {
   EFFECTS.forEach((effect) => {
     effect.querySelector.addEventListener('change', () => {
-      if (effect.querySelector.checked) {
-        if (effect.effectName === 'none') {
-          effectLevelContainer.classList.add('visually-hidden');
-          if (slider) {
-            slider.destroy();
-          }
-          imagePreview.style.filter = '';
-        } else {
-          effectLevelContainer.classList.remove('visually-hidden');
-          createSlider(effect);
+      if (!effect.querySelector.checked) {
+        return;
+      }
+      if (effect.effectName === 'none') {
+        effectLevelContainer.classList.add('visually-hidden');
+        if (slider) {
+          slider.set(0);
           applyEffect();
         }
+      } else {
+        effectLevelContainer.classList.remove('visually-hidden');
+        createSlider(effect);
+        applyEffect();
       }
     });
   });

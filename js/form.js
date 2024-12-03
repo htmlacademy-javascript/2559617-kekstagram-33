@@ -3,6 +3,8 @@ import { initEffects } from './effects.js';
 import { initValidation, checkValidateForm } from './form-validation.js';
 import { isEscapeKey } from './util.js';
 
+const defaultScale = 100;
+
 const fileInput = document.getElementById('upload-file');
 const overlay = document.querySelector('.img-upload__overlay');
 const bodyElement = document.querySelector('body');
@@ -48,7 +50,7 @@ const onDocumentEscPress = (evt) => {
 fileInput.addEventListener('change', () => {
   overlay.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
-  updateScale(100);
+  updateScale(defaultScale);
   initEffects();
   pristine = initValidation(formUploadDOMElement, hashtagsInputDOMElement, commentFieldDOMElement);
   checkValidateForm(pristine);
