@@ -14,7 +14,7 @@ const commentFieldDOMElement = formUploadDOMElement.querySelector('.text__descri
 
 let pristine;
 
-const closeOverlay = () => {
+export const closeOverlay = () => {
   overlay.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   // eslint-disable-next-line no-use-before-define

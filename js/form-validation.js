@@ -1,4 +1,6 @@
 import '../vendor/pristine/pristine.min.js';
+import {handleSuccess, handleError, blockSubmitButton, unblockSubmitButton} from './post-messages.js';
+import {sendData} from './apii.js';
 
 const dataCommentField = Object.freeze({
   MAX_LENGTH: 140,
@@ -78,60 +80,53 @@ export const initValidation = (form, hashtags, comment) => {
   return pristine;
 };
 
+// export const checkValidateForm = (pristine) => {
+//   formElement.addEventListener('submit', (evt) => {
+//     evt.preventDefault();
+//     const isValid = pristine.validate();
+//     if (isValid) {
+//       blockSubmitButton();
+//       sendData(new FormData(evt.target))
+//         .then((data) => {
+//           handleSuccess(data);
+//           unblockSubmitButton();
+//         })
+//         .catch((error) => {
+//           handleError(error);
+//           unblockSubmitButton();
+//         });
+//     }
+//   });
+// };
+
 export const checkValidateForm = (pristine) => {
-  const errorTemplate = document.querySelector('#error').content;
-  const successTemplate = document.querySelector('#success').content;
-  const messageContainer = document.createElement('div');
-
-  const overlay = document.querySelector('.img-upload__overlay');
-  const bodyElement = document.querySelector('body');
-
   formElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
     if (isValid) {
       const formData = new FormData(evt.target);
+      blockSubmitButton();
       fetch(
         'https://32.javascript.htmlacademy.pro/kekstagram',
         {
           method: 'POST',
           body: formData,
-        },
+        }
       )
-        .then((response) => {
-          if (!response.ok) {
-            return response.json().then((error) => {
-              throw new Error(error.message || 'Ошибка отправки формы');
-            });
-          }
-          return response.json();
-        })
-        .then((data) => {
-          const successMessage = successTemplate.cloneNode(true);
-          const successButton = successMessage.querySelector('.success__button');
-          overlay.classList.add('hidden');
-          bodyElement.classList.remove('modal-open');
-          successButton.addEventListener('click', () => {
-            messageContainer.remove();
-          });
-          messageContainer.appendChild(successMessage);
-          document.body.appendChild(messageContainer);
-          // eslint-disable-next-line no-console
-          console.log('Успешная отправка:', data);
-        })
-        .catch((error) => {
-          const errorMessage = errorTemplate.cloneNode(true);
-          const errorButton = errorMessage.querySelector('.error__button');
-          errorButton.addEventListener('click', () => {
-            messageContainer.remove();
-          });
-          messageContainer.appendChild(errorMessage);
-          document.body.appendChild(messageContainer);
-          // eslint-disable-next-line no-console
-          console.error('Проищошла ошибка:', error);
-        });
+        .then((response) => response.json())
+        .then(handleSuccess)
+        .catch(handleError);
     }
   });
 };
 
 
+// export const checkValidateForm = (pristine) => {
+//   formElement.addEventListener('submit', (evt) => {
+//     evt.preventDefault();
+//     const isValid = pristine.validate();
+//     if (isValid) {
+//       formElement.submit();
+//     }
+//   });
+// };
