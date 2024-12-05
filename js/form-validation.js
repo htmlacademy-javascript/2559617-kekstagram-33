@@ -1,5 +1,3 @@
-import '../vendor/pristine/pristine.min.js';
-
 const dataCommentField = Object.freeze({
   MAX_LENGTH: 140,
   MESSAGE_ERROR: 'Длина комментария не должна превышать 140 символов',
@@ -59,13 +57,11 @@ const validateCommentField = (value) => value.length <= dataCommentField.MAX_LEN
 const getHashtagErrorMessage = () => hashtagErrorMessage[0] ?? '';
 const getCommentErrorMessage = () => dataCommentField.MESSAGE_ERROR;
 
-let formElement;
 let hashtagsInput;
 let commentField;
 
 
 export const initValidation = (form, hashtags, comment) => {
-  formElement = form;
   hashtagsInput = hashtags;
   commentField = comment;
   const pristine = new Pristine(form, {
@@ -76,14 +72,4 @@ export const initValidation = (form, hashtags, comment) => {
   pristine.addValidator(hashtagsInput, validateHashtagField, getHashtagErrorMessage);
   pristine.addValidator(commentField, validateCommentField, getCommentErrorMessage);
   return pristine;
-};
-
-export const checkValidateForm = (pristine) => {
-  formElement.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    const isValid = pristine.validate();
-    if (isValid) {
-      formElement.submit();
-    }
-  });
 };
