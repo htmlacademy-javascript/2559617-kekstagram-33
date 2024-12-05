@@ -1,7 +1,9 @@
 import { updateScale } from './scale.js';
 import { initEffects } from './effects.js';
-import { initValidation, checkValidateForm } from './form-validation.js';
+import { initValidation} from './form-validation.js';
 import { isEscapeKey } from './util.js';
+import {handleSuccess, handleError, blockSubmitButton, unblockSubmitButton, isErrorMessageShown} from './post-messages.js';
+import {sendData} from './api.js';
 
 const fileInput = document.getElementById('upload-file');
 const overlay = document.querySelector('.img-upload__overlay');
@@ -39,19 +41,36 @@ commentFieldDOMElement.addEventListener('keydown', (evt) => {
 
 
 const onDocumentEscPress = (evt) => {
-  if (isEscapeKey(evt)) {
+  if (isEscapeKey(evt) && !isErrorMessageShown) {
     evt.preventDefault();
     closeOverlay();
   }
 };
 
+
+let submitHandler;
 fileInput.addEventListener('change', () => {
   overlay.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
   updateScale(100);
   initEffects();
   pristine = initValidation(formUploadDOMElement, hashtagsInputDOMElement, commentFieldDOMElement);
-  checkValidateForm(pristine);
+  if (submitHandler) {
+    formUploadDOMElement.removeEventListener('submit', submitHandler);
+  }
+  submitHandler = (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+    if (isValid) {
+      const formData = new FormData(evt.target);
+      blockSubmitButton();
+      sendData(formData)
+        .then(handleSuccess)
+        .catch(handleError)
+        .finally(unblockSubmitButton);
+    }
+  };
+  formUploadDOMElement.addEventListener('submit', submitHandler);
   document.addEventListener('keydown', onDocumentEscPress);
 });
 

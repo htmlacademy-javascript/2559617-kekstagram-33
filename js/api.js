@@ -1,22 +1,32 @@
-import { renderPhotos } from './miniature-creating.js';
+import {handleSuccess, handleError} from './post-messages.js';
+const BASE_URL = 'https://32.javascript.htmlacademy.pro/kekstagram';
+const Route = {
+  GET_DATA: '/data',
+  SEND_DATA: '/',
+};
+const Method = {
+  GET: 'GET',
+  POST: 'POST',
+};
+const ErrorText = {
+  GET_DATA: handleSuccess,
+  SEND_DATA: handleError,
+};
 
-const dataErrorTemplate = document.querySelector('#data-error').content;
-const messageContainer = document.createElement('div');
+const load = (route, errorText, method = Method.GET, body = null) =>
+  fetch(`${BASE_URL}${route}`, {method, body})
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error();
+      }
+      return response.json();
+    })
+    .catch(() => {
+      throw new Error(errorText);
+    });
 
-fetch('https://32.javascript.htmlacademy.pro/kekstagram/data')
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return response.json();
-  })
-  .then((miniatures) => {
-    renderPhotos(miniatures);
-  })
-  .catch((error) => {
-    const errorMessage = dataErrorTemplate.cloneNode(true);
-    messageContainer.appendChild(errorMessage);
-    document.body.appendChild(messageContainer);
-    // eslint-disable-next-line no-console
-    console.error('Ошибка загрузки данных c сервера:', error);
-  });
+const getData = () => load(Route.GET_DATA, ErrorText.GET_DATA);
+
+const sendData = (body) => load(Route.SEND_DATA, ErrorText.SEND_DATA, Method.POST, body);
+
+export {getData, sendData};

@@ -1,7 +1,3 @@
-import '../vendor/pristine/pristine.min.js';
-import {handleSuccess, handleError, blockSubmitButton, unblockSubmitButton} from './post-messages.js';
-import {sendData} from './apii.js';
-
 const dataCommentField = Object.freeze({
   MAX_LENGTH: 140,
   MESSAGE_ERROR: 'Длина комментария не должна превышать 140 символов',
@@ -61,13 +57,11 @@ const validateCommentField = (value) => value.length <= dataCommentField.MAX_LEN
 const getHashtagErrorMessage = () => hashtagErrorMessage[0] ?? '';
 const getCommentErrorMessage = () => dataCommentField.MESSAGE_ERROR;
 
-let formElement;
 let hashtagsInput;
 let commentField;
 
 
 export const initValidation = (form, hashtags, comment) => {
-  formElement = form;
   hashtagsInput = hashtags;
   commentField = comment;
   const pristine = new Pristine(form, {
@@ -79,54 +73,3 @@ export const initValidation = (form, hashtags, comment) => {
   pristine.addValidator(commentField, validateCommentField, getCommentErrorMessage);
   return pristine;
 };
-
-// export const checkValidateForm = (pristine) => {
-//   formElement.addEventListener('submit', (evt) => {
-//     evt.preventDefault();
-//     const isValid = pristine.validate();
-//     if (isValid) {
-//       blockSubmitButton();
-//       sendData(new FormData(evt.target))
-//         .then((data) => {
-//           handleSuccess(data);
-//           unblockSubmitButton();
-//         })
-//         .catch((error) => {
-//           handleError(error);
-//           unblockSubmitButton();
-//         });
-//     }
-//   });
-// };
-
-export const checkValidateForm = (pristine) => {
-  formElement.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    const isValid = pristine.validate();
-    if (isValid) {
-      const formData = new FormData(evt.target);
-      blockSubmitButton();
-      fetch(
-        'https://32.javascript.htmlacademy.pro/kekstagram',
-        {
-          method: 'POST',
-          body: formData,
-        }
-      )
-        .then((response) => response.json())
-        .then(handleSuccess)
-        .catch(handleError);
-    }
-  });
-};
-
-
-// export const checkValidateForm = (pristine) => {
-//   formElement.addEventListener('submit', (evt) => {
-//     evt.preventDefault();
-//     const isValid = pristine.validate();
-//     if (isValid) {
-//       formElement.submit();
-//     }
-//   });
-// };
