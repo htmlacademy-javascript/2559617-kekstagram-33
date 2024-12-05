@@ -1,4 +1,3 @@
-import { generatePhotosInfo } from './photo-info-generation';
 import { openBigPicture } from './open-big-picture.js';
 
 const photoTemplateElement = document.querySelector('#picture').content.querySelector('.picture');
@@ -18,14 +17,14 @@ const generatePhotoElement = (photoData) => {
   return photoElement;
 };
 
-const photosData = generatePhotosInfo();
+const renderPhotos = (photoData) => {
+  const photosFragment = document.createDocumentFragment();
+  photoData.forEach((photo) => {
+    const photoElement = generatePhotoElement(photo);
+    photosFragment.appendChild(photoElement);
+  });
+  photosContainer.appendChild(photosFragment);
+};
 
-const photosFragment = document.createDocumentFragment();
 
-photosData.forEach((photoData) => {
-  photosFragment.appendChild(generatePhotoElement(photoData));
-});
-
-photosContainer.appendChild(photosFragment);
-
-export { photosContainer };
+export { renderPhotos };

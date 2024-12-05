@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import { isEscapeKey } from './util';
 
 const COMMENTS_PER_PAGE = 5;
@@ -43,7 +44,6 @@ const renderComments = () => {
 const closeModal = () => {
   bigPictureModal.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
-  // eslint-disable-next-line no-use-before-define
   document.removeEventListener('keydown', onDocumentEscPress);
   displayedComments = 0;
 };
