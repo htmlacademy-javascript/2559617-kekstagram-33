@@ -48,3 +48,5 @@ export const sortPictures = (initialPictures, cb) => {
     });
   });
 };
+
+export const showFiltersContainer = document.querySelector('.img-filters').classList.remove('img-filters--inactive');

@@ -30,4 +30,3 @@ export const sortArray = (array) => {
   return array;
 };
 export const compareComments = (a, b) => b.comments.length - a.comments.length;
-

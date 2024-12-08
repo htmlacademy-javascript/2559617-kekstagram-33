@@ -1,4 +1,3 @@
-import {handleSuccess, handleError} from './post-messages.js';
 const BASE_URL = 'https://32.javascript.htmlacademy.pro/kekstagram';
 const Route = {
   GET_DATA: '/data',
@@ -9,8 +8,8 @@ const Method = {
   POST: 'POST',
 };
 const ErrorText = {
-  GET_DATA: handleSuccess,
-  SEND_DATA: handleError,
+  GET_DATA: 'При загрузке данных произошла ошибка',
+  SEND_DATA: 'При отправке данных произошла ошибка',
 };
 
 const load = (route, errorText, method = Method.GET, body = null) =>
