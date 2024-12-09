@@ -54,15 +54,15 @@ export const handleSuccess = (data) => {
   closeOverlay();
 
   successButton.addEventListener('click', closeMessage);
-  successSection.addEventListener('click', closeMessageIfOutsideInner); // Изменена строка
+  successSection.addEventListener('click', closeMessageIfOutsideInner);
   messageContainer.appendChild(successMessage);
   document.body.appendChild(messageContainer);
   document.addEventListener('keydown', onDocumentEscPress);
   console.log('Успешная отправка данных:', data);
 };
 
-const closeMessageIfOutsideErrorInner = (evt) => { // Новая функция для ошибок
-  const inner = evt.target.closest('.error__inner'); // Изменено имя класса
+const closeMessageIfOutsideErrorInner = (evt) => {
+  const inner = evt.target.closest('.error__inner');
   if (!inner) {
     closeMessage();
   }
@@ -72,11 +72,11 @@ export const handleError = (error) => {
   messageContainer.innerHTML = '';
   const errorMessage = errorTemplate.cloneNode(true);
   const errorButton = errorMessage.querySelector('.error__button');
-  const errorSection = errorMessage.querySelector('.error'); // Добавлено
-  const errorInner = errorMessage.querySelector('.error__inner'); // Добавлено - предположим, что есть inner
+  const errorSection = errorMessage.querySelector('.error');
+  const errorInner = errorMessage.querySelector('.error__inner');
 
   errorButton.addEventListener('click', closeMessage);
-  if(errorInner) { // Проверка на существование .error__inner
+  if(errorInner) {
     errorSection.addEventListener('click', closeMessageIfOutsideErrorInner);
   }
   messageContainer.appendChild(errorMessage);
