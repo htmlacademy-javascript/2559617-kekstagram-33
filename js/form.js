@@ -6,7 +6,7 @@ import { isEscapeKey } from './util.js';
 import {handleSuccess, handleError, blockSubmitButton, unblockSubmitButton, isErrorMessageShown} from './post-messages.js';
 import {sendData} from './api.js';
 
-const defaultScale = 100;
+const DEFAUTL_SCALE = 100;
 
 const fileInput = document.getElementById('upload-file');
 const overlay = document.querySelector('.img-upload__overlay');
@@ -54,7 +54,7 @@ let onSubmitData;
 fileInput.addEventListener('change', () => {
   overlay.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
-  updateScale(defaultScale);
+  updateScale(DEFAUTL_SCALE);
   initEffects();
   pristine = initValidation(formUploadDOMElement, hashtagsInputDOMElement, commentFieldDOMElement);
   if (onSubmitData) {
