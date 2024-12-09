@@ -49,4 +49,10 @@ export const sortPictures = (initialPictures, cb) => {
   });
 };
 
-export const showFiltersContainer = document.querySelector('.img-filters').classList.remove('img-filters--inactive');
+export function showFiltersContainer() {
+  const filtersContainer = document.querySelector('.img-filters');
+  if (filtersContainer) {
+    filtersContainer.classList.remove('img-filters--inactive');
+  }
+}
+

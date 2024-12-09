@@ -86,16 +86,11 @@ const openBigPicture = (data) => {
 
 const handleFileSelect = (event) => {
   const file = event.target.files[0];
-  const reader = new FileReader();
-
-  reader.onload = (e) => {
-    currentImageURL = e.target.result;
-    previewImage.src = currentImageURL;
-    updateEffectPreviews(currentImageURL);
-  };
 
   if (file) {
-    reader.readAsDataURL(file);
+    currentImageURL = URL.createObjectURL(file);
+    previewImage.src = currentImageURL;
+    updateEffectPreviews(currentImageURL);
   }
 };
 

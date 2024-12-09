@@ -12,7 +12,7 @@ import {getDataError} from './post-messages.js';
 getData()
   .then((picture) => {
     renderPhotos(picture);
-    showFiltersContainer;
+    showFiltersContainer();
     sortPictures(picture);
   })
   .catch(
