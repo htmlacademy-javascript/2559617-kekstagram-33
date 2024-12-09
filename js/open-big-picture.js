@@ -1,6 +1,4 @@
 /* eslint-disable no-use-before-define */
-
-// Комментарий для теста
 import { isEscapeKey } from './util';
 
 const COMMENTS_PER_PAGE = 5;
