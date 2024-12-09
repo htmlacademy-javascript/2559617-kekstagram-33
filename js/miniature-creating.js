@@ -1,7 +1,7 @@
 import { openBigPicture } from './open-big-picture.js';
 
 const photoTemplateElement = document.querySelector('#picture').content.querySelector('.picture');
-const photosContainer = document.querySelector('.pictures');
+export const photosContainer = document.querySelector('.pictures');
 
 const generatePhotoElement = (photoData) => {
   const photoElement = photoTemplateElement.cloneNode(true);

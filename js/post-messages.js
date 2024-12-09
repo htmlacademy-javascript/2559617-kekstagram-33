@@ -7,7 +7,6 @@ const messageContainer = document.createElement('div');
 const errorTemplate = document.querySelector('#error').content;
 const successTemplate = document.querySelector('#success').content;
 const submitButton = document.querySelector('#upload-submit');
-
 const dataErrorTemplate = document.querySelector('#data-error').content;
 
 const SubmitButtonText = {
@@ -29,7 +28,6 @@ let isErrorMessageShown = false;
 
 const closeMessage = () => {
   messageContainer.remove();
-  document.removeEventListener('click', closeMessage);
   document.removeEventListener('keydown', onDocumentEscPress);
   isErrorMessageShown = false;
 };
@@ -41,30 +39,48 @@ const onDocumentEscPress = (evt) => {
   }
 };
 
+const closeMessageIfOutsideInner = (evt) => {
+  const inner = evt.target.closest('.success__inner');
+  if (!inner) {
+    closeMessage();
+  }
+};
+
 export const handleSuccess = (data) => {
   messageContainer.innerHTML = '';
   const successMessage = successTemplate.cloneNode(true);
   const successButton = successMessage.querySelector('.success__button');
+  const successSection = successMessage.querySelector('.success');
   closeOverlay();
 
   successButton.addEventListener('click', closeMessage);
+  successSection.addEventListener('click', closeMessageIfOutsideInner);
   messageContainer.appendChild(successMessage);
   document.body.appendChild(messageContainer);
-  document.addEventListener('click', closeMessage);
   document.addEventListener('keydown', onDocumentEscPress);
   console.log('Успешная отправка данных:', data);
 };
 
+const closeMessageIfOutsideErrorInner = (evt) => {
+  const inner = evt.target.closest('.error__inner');
+  if (!inner) {
+    closeMessage();
+  }
+};
 
 export const handleError = (error) => {
   messageContainer.innerHTML = '';
   const errorMessage = errorTemplate.cloneNode(true);
   const errorButton = errorMessage.querySelector('.error__button');
+  const errorSection = errorMessage.querySelector('.error');
+  const errorInner = errorMessage.querySelector('.error__inner');
 
   errorButton.addEventListener('click', closeMessage);
+  if(errorInner) {
+    errorSection.addEventListener('click', closeMessageIfOutsideErrorInner);
+  }
   messageContainer.appendChild(errorMessage);
   document.body.appendChild(messageContainer);
-  document.addEventListener('click', closeMessage);
   document.addEventListener('keydown', onDocumentEscPress);
   isErrorMessageShown = true;
   console.error('Произошла ошибка:', error);
@@ -78,4 +94,3 @@ export const getDataError = (error) => {
 };
 
 export { isErrorMessageShown };
-

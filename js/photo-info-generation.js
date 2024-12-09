@@ -35,12 +35,12 @@ const DESCRIPTIONS = [
   'Отсутствие сна — это не проблема. Проблема, когда ты не знаешь, ради чего просыпаешься по утрам.',
 ];
 
-const LIKE_COUNT_RANGE = {
+const LIKE_COUNT_RANGES = {
   min: 15,
   max: 200
 };
 
-const IMAGE_ID_RANGE = {
+const IMAGE_ID_RANGES = {
   min: 1,
   max: 6
 };
@@ -56,7 +56,7 @@ const getNextUrlId = createIdGenerator();
 function getCreateComment() {
   return {
     id: getNextCommentId(),
-    avatar: `img/avatar-${getRandomIntInclusive(IMAGE_ID_RANGE.min, IMAGE_ID_RANGE.max)}.svg`,
+    avatar: `img/avatar-${getRandomIntInclusive(IMAGE_ID_RANGES.min, IMAGE_ID_RANGES.max)}.svg`,
     message: `${getRandomArrayElement(COMMENTS)}`,
     name: `${getRandomArrayElement(COMMENTATOR_NAMES)}`,
   };
@@ -69,7 +69,7 @@ function getCreatePhotoInfo() {
     id: getNextPhotoId(),
     url: `photos/${getNextUrlId()}.jpg`,
     description: `${getRandomArrayElement(DESCRIPTIONS)}`,
-    likes: getRandomIntInclusive(LIKE_COUNT_RANGE.min, LIKE_COUNT_RANGE.max),
+    likes: getRandomIntInclusive(LIKE_COUNT_RANGES.min, LIKE_COUNT_RANGES.max),
     comments: comments,
   };
 }

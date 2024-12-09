@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import { updateScale } from './scale.js';
 import { initEffects } from './effects.js';
 import { initValidation} from './form-validation.js';
@@ -21,7 +22,6 @@ let pristine;
 export const closeOverlay = () => {
   overlay.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
-  // eslint-disable-next-line no-use-before-define
   document.removeEventListener('keydown', onDocumentEscPress);
   if (pristine) {
     pristine.reset();
@@ -50,17 +50,17 @@ const onDocumentEscPress = (evt) => {
 };
 
 
-let submitHandler;
+let onSubmitData;
 fileInput.addEventListener('change', () => {
   overlay.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
   updateScale(defaultScale);
   initEffects();
   pristine = initValidation(formUploadDOMElement, hashtagsInputDOMElement, commentFieldDOMElement);
-  if (submitHandler) {
-    formUploadDOMElement.removeEventListener('submit', submitHandler);
+  if (onSubmitData) {
+    formUploadDOMElement.removeEventListener('submit', onSubmitData);
   }
-  submitHandler = (evt) => {
+  onSubmitData = (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
     if (isValid) {
@@ -72,7 +72,7 @@ fileInput.addEventListener('change', () => {
         .finally(unblockSubmitButton);
     }
   };
-  formUploadDOMElement.addEventListener('submit', submitHandler);
+  formUploadDOMElement.addEventListener('submit', onSubmitData);
   document.addEventListener('keydown', onDocumentEscPress);
 });
 
