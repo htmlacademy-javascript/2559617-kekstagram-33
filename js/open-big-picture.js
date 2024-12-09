@@ -4,7 +4,8 @@ import { isEscapeKey } from './util';
 const COMMENTS_PER_PAGE = 5;
 
 const bigPictureModal = document.querySelector('.big-picture');
-const commentCounterElement = document.querySelector('.social__comment-count');
+const shownCountElement = bigPictureModal.querySelector('.social__comment-shown-count');
+const totalCountElement = bigPictureModal.querySelector('.social__comment-total-count');
 const commentsList = document.querySelector('.social__comments');
 const showMoreCommentsButton = document.querySelector('.comments-loader');
 const bodyElement = document.querySelector('body');
@@ -43,7 +44,11 @@ const renderComments = () => {
 
   commentsList.innerHTML = '';
   commentsList.appendChild(fragment);
-  commentCounterElement.textContent = `${displayedComments} из ${allComments.length} комментариев`;
+
+  if (shownCountElement && totalCountElement) {
+    shownCountElement.textContent = displayedComments;
+    totalCountElement.textContent = allComments.length;
+  }
 };
 
 const closeModal = () => {

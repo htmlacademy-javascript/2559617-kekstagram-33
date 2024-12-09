@@ -5,6 +5,20 @@ import { debounce, sortArray, compareComments } from './util.js';
 const imageFiltersButtons = document.querySelectorAll('.img-filters__button');
 const pictures = document.querySelector('.pictures');
 
+const activateFilterButton = (button) => {
+  imageFiltersButtons.forEach((btn) => {
+    btn.classList.remove('img-filters__button--active');
+  });
+  button.classList.add('img-filters__button--active');
+};
+
+imageFiltersButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    activateFilterButton(button);
+  });
+});
+
+
 function onFiltersChange(filter) {
   imageFiltersButtons.forEach((button) => {
     button.classList.remove('img-filters__button--active');
@@ -55,4 +69,3 @@ export function showFiltersContainer() {
     filtersContainer.classList.remove('img-filters--inactive');
   }
 }
-
